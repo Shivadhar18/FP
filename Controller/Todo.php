@@ -32,8 +32,7 @@ class Todo
             header('Location: ' . ROOT_URL . '?p=admin&a=login');
             exit;
         }
-//        $this->oUtil->oPosts = $this->oModel->get(0, self::MAX_POSTS); // Get only the latest X posts
-
+        // $this->oUtil->oPosts = $this->oModel->getAll(); // Get only the latest X posts
         $this->oUtil->getView('index');
     }
 
@@ -54,8 +53,10 @@ class Todo
     public function all()
     {
         if (!$this->isLogged()) exit;
+        $this->oUtil->getModel('Todo');
+        $this->oModel = new \TestProject\Model\Todo;
 
-//        $this->oUtil->oPosts = $this->oModel->getAll();
+        $this->oUtil->oTodos = $this->oModel->getAll();
 
         $this->oUtil->getView('index');
     }
@@ -63,16 +64,22 @@ class Todo
 
     public function add()
     {
-        if (!$this->isLogged()) exit;
+        if (!$this->isLogged()) {
+            header('Location: ' . ROOT_URL . '?p=admin&a=login');
+            exit;
+        }
 
         if (!empty($_POST['add_submit']))
         {
-            if (isset($_POST['title'], $_POST['body']) && mb_strlen($_POST['title']) <= 50) // Allow a maximum of 50 characters
+            if (isset($_POST['title'], $_POST['body'])) // Allow a maximum of 50 characters
             {
-                $aData = array('title' => $_POST['title'], 'body' => $_POST['body'], 'created_date' => date('Y-m-d H:i:s'));
+            $this->oUtil->getModel('Todo');
+            $this->oModel = new \TestProject\Model\Todo;
+
+                $aData = array('accountid'=>$_SESSION['account_id'],'title' => $_POST['title'], 'body' => $_POST['body'], 'created_date' => date('Y-m-d H:i:s'));
 
                 if ($this->oModel->add($aData))
-                    $_SESSION['sErrMsg'] = 'Hurray!! The post has been added.';
+                    $_SESSION['sSuccMsg'] = 'Success!! The Todo Detail has been added.';
                 else
                     $_SESSION['sErrMsg'] = 'Whoops! An error has occurred! Please try again later.';
                 
@@ -92,37 +99,56 @@ class Todo
     {
         if (!$this->isLogged()) exit;
 
+        $this->oUtil->getModel('Todo');
+        $this->oModel = new \TestProject\Model\Todo;
+
         if (!empty($_POST['edit_submit']))
         {
             if (isset($_POST['title'], $_POST['body']))
             {
-                $aData = array('post_id' => $this->_iId, 'title' => $_POST['title'], 'body' => $_POST['body']);
+                $aData = array('id' => $_POST['edit_id'], 'title' => $_POST['title'], 'body' => $_POST['body'],'updated_at'=>date('Y-m-d H:i:s'));
 
                 if ($this->oModel->update($aData))
-                    $this->oUtil->sSuccMsg = 'Hurray! The post has been updated.';
+                    $_SESSION['sSuccMsg'] = 'Success!! The Todo Detail has been updated successfully.';
                 else
-                    $this->oUtil->sErrMsg = 'Whoops! An error has occurred! Please try again later';
+                    $_SESSION['sErrMsg'] = 'Whoops! An error has occurred! Please try again later';
             }
             else
             {
-                $this->oUtil->sErrMsg = 'All fields are required.';
+                $_SESSION['sErrMsg'] = 'All fields are required.';
             }
         }
 
         /* Get the data of the post */
-        $this->oUtil->oPost = $this->oModel->getById($this->_iId);
+        $this->oUtil->oTodos = $this->oModel->getById($_REQUEST['eid']);
 
-        $this->oUtil->getView('edit_post');
+        $this->oUtil->getView('edit_todo');
     }
 
     public function delete()
     {
         if (!$this->isLogged()) exit;
 
-        if (!empty($_POST['delete']) && $this->oModel->delete($this->_iId))
-            header('Location: ' . ROOT_URL);
-        else
-            exit('Whoops! Post cannot be deleted.');
+        if (!empty($_REQUEST['did']))
+        {
+            $this->oUtil->getModel('Todo');
+            $this->oModel = new \TestProject\Model\Todo;
+
+                $aData = array('did'=>$_REQUEST['did'], 'updated_date' => date('Y-m-d H:i:s'));
+
+                if ($this->oModel->delete($aData))
+                    $_SESSION['sSuccMsg'] = 'Success!! Deleted Successfully';
+                else
+                    $_SESSION['sErrMsg'] = 'Whoops! An error has occurred! Please try again later.';
+                
+            }
+            else
+            {
+                $_SESSION['sErrMsg'] = 'All fields are required and the title cannot exceed 50 characters.';
+               
+            }
+            $_SESSION['sAction']='delete';
+            header('Location: ' . ROOT_URL . '?p=todo&a=all');
     }
 
     protected function isLogged()
