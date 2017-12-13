@@ -6,12 +6,13 @@ class Admin extends Todo
 {
     public function login($sEmail)
     {
-        $oStmt = $this->oDb->prepare('SELECT username, password FROM accounts WHERE username = :username LIMIT 1');
+        $oStmt = $this->oDb->prepare('SELECT username, password,id FROM accounts WHERE username = :username LIMIT 1');
         $oStmt->bindValue(':username', $sEmail, \PDO::PARAM_STR);
         $oStmt->execute();
         $oRow = $oStmt->fetch(\PDO::FETCH_OBJ);
-
-        return @$oRow->password; // Use the PHP 5.5 password function
+        $data['password']=@$oRow->password;
+        $data['id']=@$oRow->id;
+        return $data; // Use the PHP 5.5 password function
     }
     public function checkusername($sUsername)
     {

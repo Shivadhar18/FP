@@ -43,15 +43,13 @@
           </a> </li>
       </ul>
       <!-- BEGIN LOGO -->
-      <a href="dashboard.php"> <?php // echo $title; ?> <!--<img src="assets/img/logo.png" class="logo" alt=""  data-src="assets/img/logo.png" data-src-retina="assets/img/logo2x.png" width="106" height="21"/>--></a>
+      <a href=""></a>
       <!-- END LOGO -->
       <ul class="nav pull-right notifcation-center">
-        <li class="dropdown" id="header_task_bar"> <a href="dashboard.php" class="dropdown-toggle active" data-toggle="">
+        <li class="dropdown" id="header_task_bar"> <a href="<?=ROOT_URL?>?p=todo&amp;a=all" class="dropdown-toggle active" data-toggle="">
           <div class="iconset top-home"></div>
           </a> </li>
-        <!--<li class="dropdown" id="header_inbox_bar" > <a href="email.html" class="dropdown-toggle" >
-          <div class="iconset top-messages"></div>
-          <span class="badge" id="msgs-badge">2</span> </a></li>-->
+       
         <li class="dropdown" id="portrait-chat-toggler" style="display:none"> <a href="#sidr" class="chat-menu-toggle">
           <div class="iconset top-chat-white "></div>
           </a> </li>
@@ -66,18 +64,7 @@
             <div class="iconset top-menu-toggle-dark"></div>
             </a> </li>
         </ul>
-        <ul class="nav quick-section">
-          <!--<li class="quicklinks"> <a href="#" class="" >
-            <div class="iconset top-reload"></div>
-            </a> </li>
-          <li class="quicklinks"> <span class="h-seperate"></span></li>
-          <li class="quicklinks"> <a href="#" class="" >
-            <div class="iconset top-tiles"></div>
-            </a> </li>
-          <li class="m-r-10 input-prepend inside search-form no-boarder"> <span class="add-on"> <span class="iconset top-search"></span></span>
-            <input name="" type="text"  class="no-boarder " placeholder="Search Dashboard" style="width:250px;">
-          </li>-->
-        </ul>
+        
       </div>
       <!-- END TOP NAVIGATION MENU -->
       <!-- BEGIN CHAT TOGGLER -->
