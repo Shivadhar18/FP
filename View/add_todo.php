@@ -14,15 +14,15 @@
 	</div>
 
         <div class="grid-body no-border">
-	        <form id="add_category" action="" method="post">
+	        <form  action="" method="post">
                 <div class="form-group">
-	    	        <label class="form-label">Enter Category</label>
+	    	        <label class="form-label">Enter Title</label>
 			        <input type="text" name="title" id="title" required="required" class="form-control"/>
                 	<p class="text-danger" id="title_msg"></p>  
                 </div>  
 
                 <div class="form-group">
-	    	        <label class="form-label">Enter Category</label>
+	    	        <label class="form-label">Enter Description</label>
 			        <textarea name="body" id="body" rows="5" cols="35" required="required" class="form-control"></textarea>
 			    	<p class="text-danger" id="title_msg"></p>  
                 </div>  
