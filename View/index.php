@@ -66,7 +66,7 @@ $pending=0;
             </div>
  <?php endforeach ?>
             <div align="right">
-            <?=$completed;?> Completed- <?=$pending;?> Pending
+             <?=$pending;?> - Todo List
             </div>
         </div>
       </div>

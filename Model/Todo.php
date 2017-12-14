@@ -13,7 +13,7 @@ class Todo
 
     public function get($iOffset, $iLimit)
     {
-        $oStmt = $this->oDb->prepare('SELECT * FROM Posts ORDER BY createdDate DESC LIMIT :offset, :limit');
+        $oStmt = $this->oDb->prepare('SELECT * FROM todo ORDER BY createdDate DESC LIMIT :offset, :limit');
         $oStmt->bindParam(':offset', $iOffset, \PDO::PARAM_INT);
         $oStmt->bindParam(':limit', $iLimit, \PDO::PARAM_INT);
         $oStmt->execute();
@@ -22,7 +22,10 @@ class Todo
 
     public function getAll()
     {
-        $oStmt = $this->oDb->query('SELECT * FROM todo ORDER BY createdDate DESC');
+        $iId=0;
+        $oStmt = $this->oDb->prepare('SELECT * FROM todo WHERE status = :status ORDER BY createdDate DESC');
+        $oStmt->bindParam(':status', $iId, \PDO::PARAM_INT);
+        $oStmt->execute();
         return $oStmt->fetchAll(\PDO::FETCH_OBJ);
     }
 
