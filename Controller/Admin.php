@@ -78,6 +78,49 @@ class Admin extends Todo
         $this->oUtil->getView('register');
     }
 
+    public function editprofile()
+    {
+        if (!$this->isLogged()){
+            header('Location: ' . ROOT_URL . '?p=admin&a=all');
+        }
+        $this->oUtil->getModel('Admin');
+        $this->oModel = new \TestProject\Model\Admin;
+
+        if (isset($_POST['firstname'],$_POST['lastname'],$_POST['email']))
+        {
+           
+                $checkEmail=$this->oModel->checkemailprofile($_POST['email']);
+                if($checkEmail == 0){
+                    $newpassword="";
+                    if($_POST['password']!="")
+                    {
+                        $newpassword=password_hash($_POST['password'] , PASSWORD_BCRYPT, array('cost' => 14));
+                    }
+
+                    $aData = array('id' => $_SESSION['account_id'],'firstname' => $_POST['firstname'], 'lastname' => $_POST['lastname'],'email' => $_POST['email'],'password' => $newpassword);
+
+
+                if ($this->oModel->update($aData)){
+                    $_SESSION['sSuccMsg'] = 'Profile Updated Sucessfully!';
+                }
+                else{
+                    $_SESSION['sErrMsg'] = 'Whoops! An error has occurred! Please try again later.';
+                }
+
+                }else{
+                    $_SESSION['sErrMsg'] = 'Email Address Already Exites.';
+
+                }
+
+
+            header('Location: ' . ROOT_URL . '?p=admin&a=editprofile');
+        }
+        $this->oUtil->oAdmin = $this->oModel->getById($_SESSION['account_id']);
+   
+        $this->oUtil->getView('edit_profile');
+    }
+
+
     public function logout()
     {
         if (!$this->isLogged())
@@ -95,4 +138,9 @@ class Admin extends Todo
         header('Location: ' . ROOT_URL);
         exit;
     }
+    protected function isLogged()
+    {
+        return !empty($_SESSION['is_logged']);
+    }
+
 }
