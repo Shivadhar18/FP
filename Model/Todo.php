@@ -23,8 +23,10 @@ class Todo
     public function getAll()
     {
         $iId=0;
-        $oStmt = $this->oDb->prepare('SELECT * FROM todo WHERE status = :status ORDER BY createdDate DESC');
+        $oStmt = $this->oDb->prepare('SELECT * FROM todo WHERE accountId= :accountid AND status = :status ORDER BY createdDate DESC');
         $oStmt->bindParam(':status', $iId, \PDO::PARAM_INT);
+        $oStmt->bindParam(':accountid', $_SESSION['account_id'], \PDO::PARAM_INT);
+
         $oStmt->execute();
         return $oStmt->fetchAll(\PDO::FETCH_OBJ);
     }
