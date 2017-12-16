@@ -31,7 +31,7 @@
 				<form id="frm_login" method="post" class="animated fadeIn">    
                     <div class="row form-row m-l-20 m-r-20 xs-m-l-10 xs-m-r-10">
                       <div class="col-md-6 col-sm-6 ">
-				        <input type="text" name="email" id="email" required="required" class="form-control"  placeholder="Email"/>
+				        <input type="text" name="username" id="username" required="required" class="form-control"  placeholder="UserName"/>
                       </div>
                       <div class="col-md-6 col-sm-6">
 	                    <input type="password" name="password" id="password" required="required" class="form-control" placeholder="Password" />

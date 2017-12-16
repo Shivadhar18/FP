@@ -10,17 +10,17 @@ class Admin extends Todo
         if ($this->isLogged())
             header('Location: ' . ROOT_URL . '?p=todo&a=all');
 
-        if (isset($_POST['email'], $_POST['password']))
+        if (isset($_POST['username'], $_POST['password']))
         {
             $this->oUtil->getModel('Admin');
             $this->oModel = new \TestProject\Model\Admin;
 
-            $sHashPassword =  $this->oModel->login($_POST['email']);
+            $sHashPassword =  $this->oModel->login($_POST['username']);
             if (password_verify($_POST['password'], $sHashPassword['password']))
             {
                 $_SESSION['is_logged'] = 1; // Admin is logged now
                 $_SESSION['account_id'] = $sHashPassword['id']; 
-                $_SESSION['username'] =$_POST['email'];
+                $_SESSION['username'] =$_POST['username'];
                 header('Location: ' . ROOT_URL . '?p=todo&a=all');
                 exit;
             }
